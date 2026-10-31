@@ -1,8 +1,8 @@
 # Agent Context
 
 Last updated: 2026-10-31
-Repository: MHDDoS
-Purpose: local development setup, web panel operation, and safe local testing.
+Repository: client-resilience-toolkit
+Purpose: public ModernAmusements safety project for authorized, client-owned resilience testing.
 
 This directory is tracked by git but excluded from deployment and Docker images.
 The Docker build ignores `agents/`, and the release workflow copies an explicit file list, so agent
@@ -10,7 +10,8 @@ files never ship in images or release archives.
 
 ## Project state
 
-- MHDDoS 2.4 stress-testing toolkit.
+- Client Resilience Toolkit, based on the MHDDoS 2.4 engine.
+- Public repository: https://github.com/ModernAmusements/client-resilience-toolkit
 - The web control panel runs on the host, not inside Docker.
 - Panel URL: http://127.0.0.1:5001
 - Port 5000 is occupied by the macOS AirPlay Receiver, so `start.sh` falls back to 5001.
@@ -130,6 +131,9 @@ Intensity presets:
 - Rebuilt the dashboard as a single command center with a Tailwind layout, intensity presets, live tasks, recent output, and resources.
 - Added Tailwind CSS build tooling: `web/src/tailwind.css`, `web/public/tailwind.css`, and npm scripts.
 - Updated the web panel, locale, and server log text to ASCII punctuation where edited.
+- Rewrote `README.md` as a ModernAmusements public safety project.
+- Published the repository at https://github.com/ModernAmusements/client-resilience-toolkit.
+- Renamed the git remote: `origin` is the public repository, `upstream` is MatrixTM/MHDDoS.
 
 ## Constraints
 
@@ -176,8 +180,9 @@ Notes:
 - The Docker image contains the CLI only. The web panel runs from the repository checkout.
 - `agents/` is excluded from Docker builds and release archives.
 - Commit `web/public/tailwind.css` so release archives include the dashboard layout.
-- The configured git remote is the upstream project. Do not push local client presets or agent context
-  without an explicit deployment target.
+- `origin` points to https://github.com/ModernAmusements/client-resilience-toolkit.
+- `upstream` points to https://github.com/MatrixTM/MHDDoS. Do not push to upstream.
+- The repository is public. Do not add secrets, client data, or local-only credentials.
 
 ## Files
 

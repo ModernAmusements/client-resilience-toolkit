@@ -457,6 +457,13 @@ body {
     background: var(--bg);
 }
 
+.mini-term:empty::before {
+    content: "No output yet. Start a test to see live output.";
+    color: var(--text3);
+    font-size: 11px;
+    font-family: var(--mono);
+}
+
 .form-grid {
     padding: 20px;
     display: grid;
@@ -488,6 +495,13 @@ body {
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    color: var(--text3);
+    font-family: var(--mono);
+}
+
+.hint {
+    font-size: 11px;
+    line-height: 1.4;
     color: var(--text3);
     font-family: var(--mono);
 }

@@ -9,7 +9,7 @@
     <t id="nav.terminal">Terminal</t>
 
     <!-- ── View subtitles ── -->
-    <t id="sub.dashboard">Real-time system metrics</t>
+    <t id="sub.dashboard">Launch, tasks, and live output</t>
     <t id="sub.launch">Configure and start operations</t>
     <t id="sub.tasks">Manage running processes</t>
     <t id="sub.tools">Network and target diagnostics</t>
@@ -30,13 +30,13 @@
     <t id="card.referers">Referers</t>
     <t id="card.proxy_files">Proxy lists</t>
     <t id="card.recent">Recent activity</t>
-    <t id="card.view_terminal">View terminal →</t>
+    <t id="card.view_terminal">View terminal -></t>
 
     <!-- ── Launch form ── -->
     <t id="form.title">Configure operation</t>
     <t id="form.layer">Layer</t>
-    <t id="form.layer.l7">Layer 7 — Application (HTTP/HTTPS)</t>
-    <t id="form.layer.l4">Layer 4 — Transport (TCP/UDP)</t>
+    <t id="form.layer.l7">Layer 7 - Application (HTTP/HTTPS)</t>
+    <t id="form.layer.l4">Layer 4 - Transport (TCP/UDP)</t>
     <t id="form.layer.amp">Amplification</t>
     <t id="form.method">Method</t>
     <t id="form.target.l7">Target (URL)</t>
@@ -52,7 +52,7 @@
     <t id="form.reflector">Reflector file (AMP)</t>
     <t id="form.reflector.ph">reflectors/ntp.txt</t>
     <t id="form.start">Start</t>
-    <t id="form.starting">Starting…</t>
+    <t id="form.starting">Starting...</t>
 
     <!-- ── Tasks ── -->
     <t id="task.title">Active tasks</t>
@@ -72,10 +72,10 @@
     <!-- ── Tools ── -->
     <t id="tools.title">Diagnostic tools</t>
     <t id="tools.tool">Tool</t>
-    <t id="tool.ping">PING — TCP connectivity</t>
-    <t id="tool.check">CHECK — HTTP response</t>
-    <t id="tool.info">INFO — Geolocation and ASN</t>
-    <t id="tool.dns">DNS — A/AAAA/MX/NS/TXT records</t>
+    <t id="tool.ping">PING - TCP connectivity</t>
+    <t id="tool.check">CHECK - HTTP response</t>
+    <t id="tool.info">INFO - Geolocation and ASN</t>
+    <t id="tool.dns">DNS - A/AAAA/MX/NS/TXT records</t>
     <t id="tools.address">Address</t>
     <t id="tools.address.ph">host or IP</t>
     <t id="tools.execute">Execute</t>

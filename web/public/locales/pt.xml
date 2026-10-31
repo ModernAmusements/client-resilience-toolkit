@@ -9,7 +9,7 @@
     <t id="nav.terminal">Terminal</t>
 
     <!-- ── Legendas das views ── -->
-    <t id="sub.dashboard">Métricas do sistema em tempo real</t>
+    <t id="sub.dashboard">Lancamento, tarefas e saida ao vivo</t>
     <t id="sub.launch">Configure e inicie operações</t>
     <t id="sub.tasks">Gerenciar processos em execução</t>
     <t id="sub.tools">Diagnóstico de rede e alvo</t>
@@ -30,13 +30,13 @@
     <t id="card.referers">Referers</t>
     <t id="card.proxy_files">Listas de proxy</t>
     <t id="card.recent">Atividade recente</t>
-    <t id="card.view_terminal">Ver terminal →</t>
+    <t id="card.view_terminal">Ver terminal -></t>
 
     <!-- ── Formulário de lançamento ── -->
     <t id="form.title">Configurar operação</t>
     <t id="form.layer">Camada</t>
-    <t id="form.layer.l7">Camada 7 — Aplicação (HTTP/HTTPS)</t>
-    <t id="form.layer.l4">Camada 4 — Transporte (TCP/UDP)</t>
+    <t id="form.layer.l7">Camada 7 - Aplicação (HTTP/HTTPS)</t>
+    <t id="form.layer.l4">Camada 4 - Transporte (TCP/UDP)</t>
     <t id="form.layer.amp">Amplificação</t>
     <t id="form.method">Método</t>
     <t id="form.target.l7">Alvo (URL)</t>
@@ -52,7 +52,7 @@
     <t id="form.reflector">Arquivo de refletores (AMP)</t>
     <t id="form.reflector.ph">reflectors/ntp.txt</t>
     <t id="form.start">Iniciar</t>
-    <t id="form.starting">Iniciando…</t>
+    <t id="form.starting">Iniciando...</t>
 
     <!-- ── Tarefas ── -->
     <t id="task.title">Tarefas ativas</t>
@@ -72,10 +72,10 @@
     <!-- ── Ferramentas ── -->
     <t id="tools.title">Ferramentas de diagnóstico</t>
     <t id="tools.tool">Ferramenta</t>
-    <t id="tool.ping">PING — Conectividade TCP</t>
-    <t id="tool.check">CHECK — Resposta HTTP</t>
-    <t id="tool.info">INFO — Geolocalização e ASN</t>
-    <t id="tool.dns">DNS — Registros A/AAAA/MX/NS/TXT</t>
+    <t id="tool.ping">PING - Conectividade TCP</t>
+    <t id="tool.check">CHECK - Resposta HTTP</t>
+    <t id="tool.info">INFO - Geolocalização e ASN</t>
+    <t id="tool.dns">DNS - Registros A/AAAA/MX/NS/TXT</t>
     <t id="tools.address">Endereço</t>
     <t id="tools.address.ph">host ou IP</t>
     <t id="tools.execute">Executar</t>

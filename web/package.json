@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec \"npx tsx\" src/server.ts",
     "start": "npx tsx src/server.ts",
-    "build": "tsc",
-    "serve": "node dist/server.js"
+    "build": "tsc && npm run build:css",
+    "serve": "node dist/server.js",
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --watch"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",
@@ -27,5 +29,9 @@
   },
   "allowScripts": {
     "esbuild@0.28.2": true
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
   }
 }

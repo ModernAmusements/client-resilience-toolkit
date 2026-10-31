@@ -2,6 +2,8 @@
 .git
 .gitignore
 .github
+# Agent context is tracked in git but excluded from deployment.
+agents/
 .idea
 .vscode
 .venv

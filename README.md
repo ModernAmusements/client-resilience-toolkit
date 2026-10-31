@@ -1,295 +1,265 @@
 <div align="center">
 
-# MHDDoS
+# Client Resilience Toolkit
 
-### DDoS Testing Toolkit · 60 Methods · Python 3.11+
+### A ModernAmusements public safety project
 
-<p>
-  <a href="https://github.com/MatrixTM/MHDDoS/network/members"><img src="https://img.shields.io/github/forks/MatrixTM/MHDDoS?style=for-the-badge" alt="Forks"></a>
-  <a href="https://github.com/MatrixTM/MHDDoS/commits/main"><img src="https://img.shields.io/github/last-commit/MatrixTM/MHDDoS/main?color=green&style=for-the-badge" alt="Last commit"></a>
-  <a href="https://github.com/MatrixTM/MHDDoS/stargazers"><img src="https://img.shields.io/github/stars/MatrixTM/MHDDoS?style=for-the-badge&color=yellow" alt="Stars"></a>
-  <a href="https://github.com/MatrixTM/MHDDoS/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MatrixTM/MHDDoS?color=orange&style=for-the-badge" alt="License"></a>
-  <a href="https://github.com/MatrixTM/MHDDoS/issues"><img src="https://img.shields.io/github/issues/MatrixTM/MHDDoS?color=purple&style=for-the-badge" alt="Issues"></a>
-</p>
-
-**For authorized testing and educational use only.**  
-Do not attack systems, websites, or networks without the owner's explicit permission.
-
-[**Download**](#-downloads) · [**Features**](#-features--methods) · [**Installation**](#-getting-started) · [**Docker
-**](#-docker) · [**Documentation**](#-documentation) · [**Community**](#-community) · [**Hosting**](#%EF%B8%8F-hosting)
+Authorized resilience testing for infrastructure you own.
 
 </div>
 
 ---
 
-<p align="center">
-  <img src="https://i.imgur.com/aNrHJcA.png" width="100%" alt="MHDDoS preview">
-</p>
+## Public safety commitment
 
-<p align="center">
-  <img src="https://i.imgur.com/4Q7v2wn.png" width="100%" alt="MHDDoS script preview">
-</p>
+This project exists to help defenders protect public and private infrastructure. It is built for
+controlled, authorized testing inside the client's own environment.
 
----
-
-## ⚠️ Important Notice
-
-> [!CAUTION]
-> **MHDDoS is 100% free.** Do **not** send money to anyone claiming to sell this project. If someone asks you to pay for
-> MHDDoS, treat it as a scam.
+- Test only systems you own or have explicit written permission to test.
+- Keep every test scoped, supervised, and contained.
+- Never target third-party, public, or shared infrastructure.
+- Do not use this project to harass, disrupt, or extort anyone.
+- Report vulnerabilities responsibly.
 
 > [!WARNING]
-> Use this project only on infrastructure you own or have explicit authorization to test.
+> Unauthorized use of this software may violate computer misuse, network protection, and data
+> protection laws. The operator is responsible for authorization, scope, and legal compliance.
 
----
+## What this project is
 
-## ✨ Features & Methods
+The Client Resilience Toolkit is a self-hosted validation platform. It helps a client answer one
+question:
 
-MHDDoS includes methods for multiple network layers, utility commands, and console helpers.
+> Can our own service stay available and correct when it receives hostile or extreme traffic?
 
-### 💣 Layer 7
+It combines a Python test engine, a web dashboard, a CLI, and Docker packaging. The dashboard is the
+main operating surface. The CLI and Docker image support automation and isolated runs.
 
-|                                                                                Icon                                                                                 |    Method    | Description                               |
-|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------:|-------------------------------------------|
-|                                      <img src="https://img.icons8.com/cotton/344/domain.png" width="20" height="20" alt="GET">                                      |    `GET`     | GET Flood                                 |
-|       <img src="https://cdn0.iconfinder.com/data/icons/database-storage-5/60/server__database__fire__burn__safety-512.png" width="20" height="20" alt="POST">       |    `POST`    | POST Flood                                |
-|                                    <img src="https://ovh.github.io/manager/ovhcloud-logo.webp" width="20" height="20" alt="OVH">                                    |    `OVH`     | Bypass OVH                                |
-|                                <img src="https://cdn-icons-png.flaticon.com/512/1691/1691948.png" width="20" height="20" alt="RHEX">                                |    `RHEX`    | Random HEX                                |
-|                               <img src="https://cdn-icons-png.flaticon.com/512/4337/4337972.png" width="20" height="20" alt="STOMP">                                |   `STOMP`    | Bypass `chk_captcha`                      |
-|               <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/cyber-bullying-2557797-2152371.png" width="20" height="20" alt="STRESS">               |   `STRESS`   | Send HTTP packets with high byte payloads |
-|                                    <img src="https://cdn.worldvectorlogo.com/logos/dyndns.svg" width="20" height="20" alt="DYN">                                    |    `DYN`     | Random subdomain method                   |
-|                             <img src="https://cdn-icons-png.flaticon.com/512/6991/6991643.png" width="20" height="20" alt="DOWNLOADER">                             | `DOWNLOADER` | Slow data-reading method                  |
-|                    <img src="https://cdn2.iconfinder.com/data/icons/poison-and-venom-fill/160/loris2-512.png" width="20" height="20" alt="SLOW">                    |    `SLOW`    | Slowloris method                          |
-|                       <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-how-work-icon.png" width="20" height="20" alt="HEAD">                       |    `HEAD`    | HTTP HEAD method                          |
-|                                 <img src="https://img.icons8.com/plasticine/2x/null-symbol.png" width="20" height="20" alt="NULL">                                  |    `NULL`    | Null User-Agent and related headers       |
-|                    <img src="https://i.pinimg.com/originals/03/2e/7d/032e7d0755cd511c753bcb6035d44f68.png" width="20" height="20" alt="COOKIE">                     |   `COOKIE`   | Random Cookie method                      |
-|                  <img src="https://cdn0.iconfinder.com/data/icons/dicticons-files-folders/32/office_pps-512.png" width="20" height="20" alt="PPS">                  |    `PPS`     | Minimal `GET / HTTP/1.1` request          |
-|   <img src="https://cdn3.iconfinder.com/data/icons/internet-security-14/48/DDoS_website_webpage_bomb_virus_protection-512.png" width="20" height="20" alt="EVEN">   |    `EVEN`    | GET method with additional headers        |
-|                                              <img src="https://iili.io/HU9BC74.png" width="20" height="20" alt="GSB">                                               |    `GSB`     | Google Project Shield bypass              |
-|      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/DDoS-Guard_logo.svg/1280px-DDoS-Guard_logo.svg.png" width="20" height="20" alt="DGB">      |    `DGB`     | DDoS-Guard bypass                         |
-|                                            <img src="https://i.imgur.com/bGL8qfw.png" width="20" height="20" alt="AVB">                                             |    `AVB`     | ArvanCloud bypass                         |
-|                                              <img src="https://iili.io/HU9BC74.png" width="20" height="20" alt="BOT">                                               |    `BOT`     | Googlebot-style requests                  |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Apache_Feather_Logo.svg/500px-Apache_Feather_Logo.svg.png" width="20" height="20" alt="APACHE"> |   `APACHE`   | Apache exploit method                     |
-| <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/WordPress_blue_logo.svg/960px-WordPress_blue_logo.svg.png" width="20" height="20" alt="XMLRPC"> |   `XMLRPC`   | WordPress XML-RPC method (`/xmlrpc.php`)  |
-|                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" width="20" height="20" alt="CFB">                         |    `CFB`     | Cloudflare bypass                         |
-|                       <img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Cloudflare_Logo.png" width="20" height="20" alt="CFBUAM">                       |   `CFBUAM`   | Cloudflare Under Attack Mode bypass       |
-|                                <img src="https://cdn-icons-png.flaticon.com/512/905/905568.png" width="20" height="20" alt="BYPASS">                                |   `BYPASS`   | Generic anti-DDoS bypass                  |
-|                                                                                 🔪                                                                                  |   `KILLER`   | Multi-threaded target method              |
-|                                                                                 🧅                                                                                  |    `TOR`     | Onion/Tor target method                   |
+## What this project is not
 
-### 🧨 Layer 4 / Layer 3
+- It is not a public attack service.
+- It is not a DDoS-for-hire platform.
+- It is not a replacement for authorization, legal review, or a rules-of-engagement document.
+- It is not a benchmark replacement. Use `k6`, `wrk`, or `autocannon` for latency and throughput
+  measurement.
 
-|                                                                                  Icon                                                                                   |    Method     | Description                                           |
-|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:-------------:|-------------------------------------------------------|
-|                    <img src="https://raw.githubusercontent.com/kgretzky/pwndrop/master/media/pwndrop-logo-512.png" width="20" height="20" alt="TCP">                    |     `TCP`     | TCP Flood                                             |
-|     <img src="https://styles.redditmedia.com/t5_2rxmiq/styles/profileIcon_snoob94cdb09-c26c-4c24-bd0c-66238623cc22-headshot.png" width="20" height="20" alt="UDP">      |     `UDP`     | UDP Flood                                             |
-|                                  <img src="https://cdn-icons-png.flaticon.com/512/1918/1918576.png" width="20" height="20" alt="SYN">                                   |     `SYN`     | SYN Flood                                             |
-|                             <img src="https://images.icon-icons.com/2407/PNG/512/ovh_icon_146131.png" width="20" height="20" alt="OVH-UDP">                             |   `OVH-UDP`   | UDP method with randomized headers and binary payload |
-|                                  <img src="https://cdn-icons-png.flaticon.com/512/1017/1017466.png" width="20" height="20" alt="CPS">                                   |     `CPS`     | Repeated proxy connection open/close                  |
-|                                  <img src="https://cdn-icons-png.flaticon.com/512/5045/5045810.png" width="20" height="20" alt="ICMP">                                  |    `ICMP`     | ICMP Echo Request flood                               |
-|                                    <img src="https://s6.uupload.ir/files/1059643_g8hp.png" width="20" height="20" alt="CONNECTION">                                     | `CONNECTION`  | Keep proxy connections alive                          |
-|      <img src="https://ia803109.us.archive.org/27/items/source-engine-video-projects/source-engine-video-projects_itemimage.png" width="20" height="20" alt="VSE">      |     `VSE`     | Valve Source Engine protocol                          |
-|                         <img src="https://mycrackfree.com/wp-content/uploads/2018/08/TeamSpeak-Server-9.png" width="20" height="20" alt="TS3">                          |     `TS3`     | TeamSpeak 3 status ping protocol                      |
-|              <img src="https://cdn2.downdetector.com/static/uploads/logo/75ef9fcabc1abea8fce0ebd0236a4132710fcb2e.png" width="20" height="20" alt="FIVEM">              |    `FIVEM`    | FiveM status ping protocol                            |
-|                  <img src="https://github.com/user-attachments/assets/f40748bf-dd28-4294-b862-cb0acbc74eea" width="20" height="20" alt="FIVEM-TOKEN">                   | `FIVEM-TOKEN` | FiveM confirmation token method                       |
-|                              <img src="https://cdn.iconscout.com/icon/free/png-512/redis-4-1175103.png" width="20" height="20" alt="MEM">                               |     `MEM`     | Memcached amplification                               |
-|                          <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-attack-icon.png" width="20" height="20" alt="NTP">                           |     `NTP`     | NTP amplification                                     |
-|                                 <img src="https://cdn-icons-png.flaticon.com/512/4712/4712139.png" width="20" height="20" alt="MCBOT">                                  |    `MCBOT`    | Minecraft bot method                                  |
-|                                <img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg" width="20" height="20" alt="MINECRAFT">                                 |  `MINECRAFT`  | Minecraft status ping protocol                        |
-|                                   <img src="https://cdn.worldvectorlogo.com/logos/minecraft-1.svg" width="20" height="20" alt="MCPE">                                   |    `MCPE`     | Minecraft PE status ping protocol                     |
-|                                  <img src="https://cdn-icons-png.flaticon.com/512/2653/2653461.png" width="20" height="20" alt="DNS">                                   |     `DNS`     | DNS amplification                                     |
-|                          <img src="https://lyrahosting.com/wp-content/uploads/2020/06/ddos-attack-icon.png" width="20" height="20" alt="CHAR">                          |    `CHAR`     | Chargen amplification                                 |
-|           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRct5OvjSCpUftyRMm3evgdPOa-f8LbwJFO-A&usqp=CAU" width="20" height="20" alt="CLDAP">            |    `CLDAP`    | CLDAP amplification                                   |
-| <img src="https://help.apple.com/assets/6171BD2C588E52621824409D/6171BD2D588E5262182440A4/en_US/8b631353e070420f47530bf95f1a7fae.png" width="20" height="20" alt="ARD"> |     `ARD`     | Apple Remote Desktop amplification                    |
-|                   <img src="https://www.tenforums.com/geek/gars/images/2/types/thumb__emote__esktop__onnection.png" width="20" height="20" alt="RDP">                   |     `RDP`     | Remote Desktop Protocol amplification                 |
+## Capabilities
 
-### ⚙️ Tools
+### Resilience testing
 
-Run the tools console with:
+- Layer 7 HTTP request patterns, including slow-connection and malformed-request behavior.
+- Layer 3 and Layer 4 transport behavior, including TCP, UDP, SYN, and ICMP.
+- Protocol checks for DNS, NTP, memcached, and selected game and voice services.
+- Proxy support for HTTP, SOCKS4, and SOCKS5.
+- Configurable thread counts, duration, requests per connection, and proxy lists.
+
+Run `python start.py --help` for the full method list.
+
+### Diagnostics
+
+- `PING` - reachability and latency.
+- `CHECK` - HTTP response status.
+- `DNS` - A, AAAA, MX, NS, TXT, CNAME, and SOA records.
+- `HEADERS` - HTTP response and security headers.
+- `INFO` - geolocation and ASN.
+- `DSTAT` - live network, CPU, and memory statistics.
+- `PROXYCHECK` - validate a proxy list.
+- `CFIP` - find the real IP behind Cloudflare.
+- `TSSRV` - TeamSpeak SRV records.
+
+### Operations
+
+- Single command-center dashboard built with Tailwind CSS.
+- Start and stop scripts with dependency bootstrapping, logs, and PID tracking.
+- JWT-protected panel API.
+- Docker image for the CLI, with `NET_RAW` for raw-socket methods.
+- Local `.venv` for the Python engine and Node.js for the panel.
+
+## Dashboard
+
+The dashboard brings the main workflow into one view:
+
+- System stats: CPU, RAM, sent bytes, and active tasks.
+- Launch form: preset, layer, method, target, threads, and duration.
+- Advanced settings: proxy type, proxy file, RPC, and reflector.
+- Active tasks with per-task stop controls.
+- Recent output and a link to the full terminal.
+- Bundled resources: user agents, referers, and proxy lists.
+
+### Intensity presets
+
+| Preset | Threads | Duration | RPC |
+| --- | ---: | ---: | ---: |
+| Easy | 5 | 10s | 1 |
+| Medium | 10 | 15s | 1 |
+| Hard | 25 | 30s | 5 |
+| Stress | 50 | 60s | 10 |
+
+`Medium` is the default for local testing. Manual edits to threads, duration, or RPC switch the preset
+to `Custom`. `Hard` and `Stress` can slow a local machine. Use them only on systems you own.
+
+## Quick start
+
+### Requirements
+
+- Python 3.11 or newer.
+- Node.js 18 or newer.
+- Git, because the PyRoxy dependency is installed from git.
+- Docker is optional.
+
+### Install and start
 
 ```bash
-python3 start.py tools
+git clone https://github.com/ModernAmusements/client-resilience-toolkit.git
+cd client-resilience-toolkit
+./start.sh
 ```
 
-| Icon |  Tool   | Description                                             |
-|:----:|:-------:|---------------------------------------------------------|
-|  🌟  | `CFIP`  | Find the real IP address of Cloudflare-powered websites |
-|  🔪  |  `DNS`  | Show DNS records                                        |
-|  📍  | `TSSRV` | TeamSpeak SRV resolver                                  |
-|  ⚠️  | `PING`  | Ping servers                                            |
-|  📌  | `CHECK` | Check website status                                    |
-|  📊  | `DSTAT` | Display sent/received byte statistics                   |
-|  🧪  | `PROXYCHECK` | Check a proxy list and show working proxies        |
-|  🔎  | `HEADERS` | Show HTTP response and security headers              |
+`start.sh` creates `.venv`, installs missing Python and Node.js dependencies, builds the dashboard,
+and starts the panel in the background.
 
-### 🎩 Console Commands
+Default panel URL:
 
-| Icon | Command | Description                 |
-|:----:|:-------:|-----------------------------|
-|  ❌   | `STOP`  | Stop all running methods    |
-|  🌠  | `TOOLS` | Open console tools          |
-| 🖥️  |  `WEB`  | Start the web control panel |
-|  👑  | `HELP`  | Show script usage           |
-|  🩺  | `DOCTOR` | Check the local installation |
+```text
+http://127.0.0.1:5001
+```
 
----
+Port 5000 is often occupied by the macOS AirPlay Receiver, so the script falls back to 5001 through
+5010. The actual URL is printed after startup.
 
-## 📥 Downloads
-
-Prebuilt releases are available from **[GitHub Releases](https://github.com/MatrixTM/MHDDoS/releases)**.
-
-Each tagged release publishes two archives:
-
-- `MHDDoS-<tag>.zip` — standalone CLI (`start.py`, config, wordlists, Docker files)
-- `MHDDoS-web-<tag>.zip` — the same runtime plus the `web/` control panel
-
----
-
-## 🚀 Getting Started
-
-### 📦 Requirements
-
-- [Python 3.11 or newer](https://python.org)
-- [dnspython](https://github.com/rthalley/dnspython)
-- [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
-- [impacket](https://github.com/SecureAuthCorp/impacket)
-- [requests](https://github.com/psf/requests)
-- [PyRoxy](https://github.com/MatrixTM/PyRoxy)
-- [icmplib](https://github.com/ValentinBELYN/icmplib)
-- [certifi](https://github.com/certifi/python-certifi)
-- [psutil](https://github.com/giampaolo/psutil)
-- [yarl](https://github.com/aio-libs/yarl)
-
-### 🔧 Clone & Install
+### Status and stop
 
 ```bash
-git clone https://github.com/MatrixTM/MHDDoS.git
-cd MHDDoS
+./start.sh --status
+./stop.sh
+```
+
+### Manual setup
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-```
-
-### ⚡ One-Line Installation on a Fresh VPS
-
-```bash
-apt -y update && apt -y install curl wget libcurl4 libssl-dev python3 python3-pip make cmake automake autoconf m4 build-essential git && git clone https://github.com/MatrixTM/MHDDoS.git && cd MH* && pip3 install -r requirements.txt
-```
-
----
-
-## 🐳 Docker
-
-```bash
-git clone https://github.com/MatrixTM/MHDDoS.git
-cd MHDDoS
-docker compose build
-```
-
-Then start the container:
-
-```bash
-docker compose run -it --entrypoint /bin/bash mhddos
-```
-
-Or run a method directly:
-
-```bash
-docker compose run --rm mhddos GET https://example.com 0 100 http.txt 10 60
-```
-
-> [!TIP]
-> The compose file builds and tags `ghcr.io/matrixtm/mhddos:latest` locally. Replace `build:` with `image:` to use the
-> published image instead.
-
----
-
-## 🖥️ Web Panel
-
-The repository includes a web control panel. Install its dependencies once:
-
-```bash
-# Windows (from the repository root)
-web\scripts\install.bat
-
-# Linux / macOS (from the repository root)
-bash web/scripts/install.sh
-```
-
-Then start it from the main CLI:
-
-```bash
+python start.py DOCTOR
 python start.py WEB
 ```
 
-The panel listens on `http://127.0.0.1:5000` by default. You can also use the
-platform launchers directly: `web\scripts\start.bat` on Windows, or
-`bash web/scripts/start.sh` on Linux/macOS.
+The installer for the web panel can also be run directly:
+
+```bash
+bash web/scripts/install.sh
+```
+
+## Safety model
+
+The toolkit is designed to run inside the client's boundary:
+
+- The panel binds to `127.0.0.1` by default.
+- Tests run as local processes controlled by the client.
+- No traffic is sent to a third-party testing service.
+- The dashboard includes low, medium, hard, and stress presets with visible warnings.
+- Raw-socket methods require root or Docker with `NET_RAW`.
+
+Production deployments should add controls that fit the client's governance:
+
+- Target allowlists and environment tags.
+- Approval workflows before a test can run.
+- Role-based access control.
+- Audit logs for every target, method, parameter, and operator.
+- Rate and duration caps.
+- A kill switch.
+- Network segmentation between the test runner and production systems.
+- Legal review and signed authorization for every scope.
+
+These controls are deployment requirements. They are not a substitute for written authorization.
+
+## CLI
+
+The CLI is useful for diagnostics and automation.
+
+```bash
+source .venv/bin/activate
+python start.py --help
+python start.py DOCTOR
+python start.py tools
+```
+
+`DOCTOR` checks the Python environment, configuration, wordlists, proxy directory, web panel scripts,
+and raw-socket access. A non-root host normally reports `15/16`; raw sockets need root or Docker.
+
+## Docker
+
+Build the CLI image:
+
+```bash
+docker compose build
+docker compose run --rm mhddos DOCTOR
+```
+
+The Docker image contains the CLI only. The web panel runs from the repository checkout.
+
+## Configuration
+
+- `config.json` - proxy providers and Minecraft protocol settings.
+- `files/useragent.txt` - user-agent wordlist.
+- `files/referers.txt` - referer wordlist.
+- `files/proxies/` - proxy lists. An empty file means no proxies are used.
+- `web/` - Express panel, Tailwind UI, and API.
+
+## Project structure
+
+```text
+start.py              Test engine and CLI
+web/                  Web panel
+  public/             Dashboard assets
+  src/                Express server and Tailwind source
+  dist/               Compiled server
+files/                Wordlists and proxy lists
+agents/               Internal agent context. Excluded from deployment.
+start.sh              Start the panel
+stop.sh               Stop the panel
+Dockerfile            CLI image
+docker-compose.yml    Compose configuration
+```
+
+## Development
+
+```bash
+cd web
+npm install
+npm run build
+npm run dev -- --port 5001
+```
+
+`npm run build` compiles TypeScript and builds `web/src/tailwind.css` into
+`web/public/tailwind.css`. Commit the generated CSS so release archives include the dashboard layout.
+
+## Security
+
+- Do not open public issues for security vulnerabilities. Follow `SECURITY.md`.
+- Do not commit secrets, proxy lists, or runtime state.
+- Keep the panel bound to localhost unless you add authentication and network controls.
+- Review every test target and scope before running a test.
+
+## Attribution
+
+This project builds on MHDDoS by MatrixTM, licensed under the MIT License:
+
+https://github.com/MatrixTM/MHDDoS
+
+ModernAmusements additions include the command-center dashboard, Tailwind layout, intensity presets,
+start and stop scripts, public safety documentation, and local deployment tooling.
+
+## License
+
+MIT. See `LICENSE`.
 
 ---
-
-## 📚 Documentation
-
-Full project documentation is available in the **[GitHub Wiki](https://github.com/MatrixTM/MHDDoS/wiki)**.
-
-For bug reports and repository-related issues, use **[GitHub Issues](https://github.com/MatrixTM/MHDDoS/issues)**.
-
-> [!NOTE]
-> Please do not use the Issues section for general support questions.
-
----
-
-## 🌐 Community
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GitHub-MatrixTM-181717?style=for-the-badge&logo=github)](https://github.com/MatrixTM)
-[![Telegram Group](https://img.shields.io/badge/Telegram-Group-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/MatrixTMChat)
+**ModernAmusements**
 
-### ⭐ Like the project?
-
-**Consider leaving a star on the repository — it helps the project grow.**
-
-</div>
-
----
-
-## ☁️ Hosting
-
-<div align="center">
-
-### 🐈 CatLabsLLC (Recommended!!!)
-
-<a href="https://catlabs.llc/login?ref=Matrix">
-  <img src="https://i.postimg.cc/6qKh1zcf/catlabsbanner.png" width="728" alt="CatLabs Hosting">
-</a>
-
-<h4><strong>😻 You can buy an 10Gbps cheap server from CatLabs Hosting with crypto (Scan Allowed & DMCA
-Ignored).</strong></h4>
-
-<p><strong><a href="https://catlabs.llc/login?ref=Matrix">Explore CatLabsLLC Cheap Prices</a></strong></p>
-
-<br>
-
-### ⚡ Zomro
-
-<a href="https://zomro.com/vps?from=428115">
-  <img src="https://i.postimg.cc/KcH7CG8b/vps.png" width="728" height="90" alt="Zomro Hosting">
-</a>
-
-<h4><strong>🕒 Zomro Hosting allows you to purchase an hourly server using crypto and completely
-anonymously.</strong></h4>
-
-<p><strong><a href="https://zomro.com/vps?from=428115">Explore Zomro Hosting</a></strong></p>
-
-</div>
-
----
-
-<div align="center">
-
-### MHDDoS
-
-**Made for authorized security testing and research.**
-
-<sub>Python 3 · Open Source · Community Driven</sub>
+Public safety through authorized resilience testing.
 
 </div>

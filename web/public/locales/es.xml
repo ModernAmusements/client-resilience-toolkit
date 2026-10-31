@@ -9,7 +9,7 @@
     <t id="nav.terminal">Terminal</t>
 
     <!-- ── View subtitles ── -->
-    <t id="sub.dashboard">Métricas del sistema en tiempo real</t>
+    <t id="sub.dashboard">Lanzamiento, tareas y salida en vivo</t>
     <t id="sub.launch">Configurar e iniciar operaciones</t>
     <t id="sub.tasks">Gestionar procesos en ejecución</t>
     <t id="sub.tools">Diagnóstico de red y objetivos</t>
@@ -30,13 +30,13 @@
     <t id="card.referers">Referers</t>
     <t id="card.proxy_files">Listas de proxy</t>
     <t id="card.recent">Actividad reciente</t>
-    <t id="card.view_terminal">Ver terminal →</t>
+    <t id="card.view_terminal">Ver terminal -></t>
 
     <!-- ── Launch form ── -->
     <t id="form.title">Configurar operación</t>
     <t id="form.layer">Capa</t>
-    <t id="form.layer.l7">Capa 7 — Aplicación (HTTP/HTTPS)</t>
-    <t id="form.layer.l4">Capa 4 — Transporte (TCP/UDP)</t>
+    <t id="form.layer.l7">Capa 7 - Aplicación (HTTP/HTTPS)</t>
+    <t id="form.layer.l4">Capa 4 - Transporte (TCP/UDP)</t>
     <t id="form.layer.amp">Amplificación</t>
     <t id="form.method">Método</t>
     <t id="form.target.l7">Objetivo (URL)</t>
@@ -52,7 +52,7 @@
     <t id="form.reflector">Archivo reflector (AMP)</t>
     <t id="form.reflector.ph">reflectors/ntp.txt</t>
     <t id="form.start">Iniciar</t>
-    <t id="form.starting">Iniciando…</t>
+    <t id="form.starting">Iniciando...</t>
 
     <!-- ── Tasks ── -->
     <t id="task.title">Tareas activas</t>
@@ -72,10 +72,10 @@
     <!-- ── Tools ── -->
     <t id="tools.title">Herramientas de diagnóstico</t>
     <t id="tools.tool">Herramienta</t>
-    <t id="tool.ping">PING — Conectividad TCP</t>
-    <t id="tool.check">CHECK — Respuesta HTTP</t>
-    <t id="tool.info">INFO — Geolocalización y ASN</t>
-    <t id="tool.dns">DNS — Registros A/AAAA/MX/NS/TXT</t>
+    <t id="tool.ping">PING - Conectividad TCP</t>
+    <t id="tool.check">CHECK - Respuesta HTTP</t>
+    <t id="tool.info">INFO - Geolocalización y ASN</t>
+    <t id="tool.dns">DNS - Registros A/AAAA/MX/NS/TXT</t>
     <t id="tools.address">Dirección</t>
     <t id="tools.address.ph">host o IP</t>
     <t id="tools.execute">Ejecutar</t>

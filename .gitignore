@@ -54,6 +54,7 @@ web/build/
 # Logs & Temporary Files
 *.log
 logs/
+.run/
 *.tmp
 *.bak
 *.swp

@@ -30,7 +30,7 @@ const JWT_SECRET = process.env.JWT_SECRET || getArg('--jwt-secret') || randomByt
 app.use(cors());
 app.use(express.json());
 
-// ── Auth Endpoints ──
+// -- Auth Endpoints --
 app.post('/api/auth/token', (_req: Request, res: Response) => {
     const token = jwt.sign(
         {sub: 'admin', role: 'admin'},
@@ -50,7 +50,7 @@ app.get('/api/auth/verify', (req: Request, res: Response) => {
     }
 });
 
-// ── Auth Middleware ──
+// -- Auth Middleware --
 app.use((req: Request, res: Response, next: NextFunction) => {
     const p = req.path;
     if (p === '/' || p === '/index.html' || p.startsWith('/api/auth/') || p.startsWith('/public/') || p.startsWith('/static/') || p.startsWith('/locales/') || p === '/favicon.ico' || p.endsWith('.css') || p.endsWith('.js') || p.endsWith('.png') || p.endsWith('.svg')) {
@@ -122,11 +122,11 @@ app.get('/api/methods', (_req: Request, res: Response) => {
         layer4: [...L4_METHODS].sort(),
         amplification: [...AMP_METHODS].sort(),
         sockTypes: [
-            {id: 0, name: '0 — ALL (Config)'},
-            {id: 1, name: '1 — HTTP'},
-            {id: 4, name: '4 — SOCKS4'},
-            {id: 5, name: '5 — SOCKS5'},
-            {id: 6, name: '6 — RANDOM'},
+            {id: 0, name: '0 - ALL (Config)'},
+            {id: 1, name: '1 - HTTP'},
+            {id: 4, name: '4 - SOCKS4'},
+            {id: 5, name: '5 - SOCKS5'},
+            {id: 6, name: '6 - RANDOM'},
         ],
     });
 });
@@ -236,7 +236,7 @@ app.post('/api/attacks/start', (req: Request, res: Response) => {
         };
 
         activeTasks.set(taskId, task);
-        broadcastLog(`[INFO] Task ${taskId} (PID ${proc.pid}) started — ${method.toUpperCase()} → ${target}`);
+        broadcastLog(`[INFO] Task ${taskId} (PID ${proc.pid}) started - ${method.toUpperCase()} -> ${target}`);
 
         proc.stdout.on('data', (data: Buffer) => {
             data.toString().split('\n').filter(l => l.trim()).forEach(line => broadcastLog(`[${taskId}] ${line}`));
@@ -511,5 +511,5 @@ app.get('/{*splat}', (_req: Request, res: Response) => {
 });
 
 app.listen(PORT, HOST, () => {
-    console.log(`[MHDDoS Panel] Running → http://${HOST}:${PORT}`);
+    console.log(`[MHDDoS Panel] Running -> http://${HOST}:${PORT}`);
 });

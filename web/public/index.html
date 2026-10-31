@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHDDoS — Control Panel</title>
+    <title>MHDDoS - Control Panel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/tailwind.css">
 </head>
 <body>
 <div class="layout">
@@ -35,15 +36,6 @@
                     x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
           </span>
                 <span data-i18n="nav.dashboard">Dashboard</span>
-            </button>
-            <button class="nav-btn" data-view="launch">
-          <span class="nav-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><polygon points="3,2 14,8 3,14"
-                                                                                 stroke="currentColor"
-                                                                                 stroke-width="1.5"
-                                                                                 stroke-linejoin="round"/></svg>
-          </span>
-                <span data-i18n="nav.launch">Launch</span>
             </button>
             <button class="nav-btn" data-view="tasks">
           <span class="nav-icon">
@@ -134,14 +126,14 @@
             <div class="stat-bar">
                 <div class="stat">
                     <span class="stat-label" data-i18n="stat.cpu">CPU</span>
-                    <span class="stat-val" id="cpuVal">—</span>
+                    <span class="stat-val" id="cpuVal">-</span>
                     <div class="stat-bar-track">
                         <div class="stat-bar-fill" id="cpuBar"></div>
                     </div>
                 </div>
                 <div class="stat">
                     <span class="stat-label" data-i18n="stat.ram">RAM</span>
-                    <span class="stat-val" id="ramVal">—</span>
+                    <span class="stat-val" id="ramVal">-</span>
                     <div class="stat-bar-track">
                         <div class="stat-bar-fill" id="ramBar"></div>
                     </div>
@@ -149,7 +141,7 @@
                 </div>
                 <div class="stat">
                     <span class="stat-label" data-i18n="stat.sent">SENT</span>
-                    <span class="stat-val mono" id="netSentVal">—</span>
+                    <span class="stat-val mono" id="netSentVal">-</span>
                 </div>
                 <div class="stat">
                     <span class="stat-label" data-i18n="stat.active">ACTIVE</span>
@@ -158,90 +150,133 @@
             </div>
 
             <section class="view active" id="view-dashboard">
-                <div class="grid-2">
-                    <div class="card">
-                        <div class="card-hd">
-                            <span class="card-title" data-i18n="card.resources">Resources</span>
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-4">
+                    <div class="xl:col-span-5 space-y-4">
+                        <div class="card">
+                            <div class="card-hd">
+                                <span class="card-title" data-i18n="form.title">Configure operation</span>
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-[var(--text3)]">Local test</span>
+                            </div>
+                            <form id="launchForm" class="form-grid">
+                                <div class="field span2">
+                                    <label class="label" for="presetSel">Test preset</label>
+                                    <select id="presetSel" class="input">
+                                        <option value="easy">Easy - 5 threads / 10s</option>
+                                        <option value="medium" selected>Medium - 10 threads / 15s</option>
+                                        <option value="hard">Hard - 25 threads / 30s</option>
+                                        <option value="stress">Stress - 50 threads / 60s</option>
+                                        <option value="custom">Custom</option>
+                                    </select>
+                                    <small class="hint" id="presetHint">10 threads for 15 seconds. Recommended for local testing.</small>
+                                </div>
+                                <div class="field">
+                                    <label class="label" data-i18n="form.layer">Layer</label>
+                                    <select id="layerSel" class="input">
+                                        <option value="L7" data-i18n-opt="form.layer.l7">Layer 7 - Application (HTTP/HTTPS)</option>
+                                        <option value="L4" data-i18n-opt="form.layer.l4">Layer 4 - Transport (TCP/UDP)</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <label class="label" data-i18n="form.method">Method</label>
+                                    <select id="methodSel" class="input"></select>
+                                </div>
+                                <div class="field span2">
+                                    <label class="label" id="targetLabel" data-i18n="form.target.l7">Target (URL)</label>
+                                    <input type="text" id="targetInp" class="input" data-i18n-ph="form.target.ph.l7"
+                                           value="http://127.0.0.1:3000/en" placeholder="https://target.com" required>
+                                </div>
+                                <div class="field">
+                                    <label class="label" data-i18n="form.threads">Threads</label>
+                                    <input type="number" id="threadsInp" class="input" value="10" min="1" max="5000">
+                                </div>
+                                <div class="field">
+                                    <label class="label" data-i18n="form.duration">Duration (s)</label>
+                                    <input type="number" id="durationInp" class="input" value="15" min="1">
+                                </div>
+                                <details class="span2">
+                                    <summary class="cursor-pointer text-[11px] font-mono uppercase tracking-wider text-[var(--text3)]">Advanced settings</summary>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3">
+                                        <div class="field" id="socksField">
+                                            <label class="label" data-i18n="form.proxy_type">Proxy type</label>
+                                            <select id="socksSel" class="input"></select>
+                                        </div>
+                                        <div class="field" id="proxyField">
+                                            <label class="label" data-i18n="form.proxy_file">Proxy file path</label>
+                                            <input type="text" id="proxyInp" class="input" data-i18n-ph="form.proxy_file.ph"
+                                                   value="http.txt">
+                                        </div>
+                                        <div class="field" id="rpcField">
+                                            <label class="label" data-i18n="form.rpc">RPC</label>
+                                            <input type="number" id="rpcInp" class="input" value="1" min="1">
+                                        </div>
+                                        <div class="field" id="reflField" style="display:none">
+                                            <label class="label" data-i18n="form.reflector">Reflector file (AMP)</label>
+                                            <input type="text" id="reflInp" class="input" data-i18n-ph="form.reflector.ph"
+                                                   placeholder="ntp.txt">
+                                        </div>
+                                    </div>
+                                </details>
+                                <div class="form-actions span2">
+                                    <button type="submit" class="btn-primary" id="launchBtn">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                            <polygon points="2,1 13,7 2,13" fill="currentColor"/>
+                                        </svg>
+                                        <span data-i18n="form.start">Start</span>
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="res-grid">
-                            <div class="res-item"><span class="res-k"
-                                                        data-i18n="card.useragents">User-Agents</span><span
-                                    class="res-v mono" id="uaCount">—</span></div>
-                            <div class="res-item"><span class="res-k" data-i18n="card.referers">Referers</span><span
-                                    class="res-v mono" id="refCount">—</span></div>
-                            <div class="res-item"><span class="res-k"
-                                                        data-i18n="card.proxy_files">Proxy lists</span><span
-                                    class="res-v mono" id="proxyCount">—</span></div>
+                        <div class="card">
+                            <div class="card-hd">
+                                <span class="card-title" data-i18n="card.resources">Resources</span>
+                            </div>
+                            <div class="res-grid">
+                                <div class="res-item"><span class="res-k" data-i18n="card.useragents">User-Agents</span><span
+                                        class="res-v mono" id="uaCount">-</span></div>
+                                <div class="res-item"><span class="res-k" data-i18n="card.referers">Referers</span><span
+                                        class="res-v mono" id="refCount">-</span></div>
+                                <div class="res-item"><span class="res-k" data-i18n="card.proxy_files">Proxy lists</span><span
+                                        class="res-v mono" id="proxyCount">-</span></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-hd">
-                            <span class="card-title" data-i18n="card.recent">Recent activity</span>
-                            <button class="link-btn" id="viewTermBtn" data-i18n="card.view_terminal">View terminal →
-                            </button>
+                    <div class="xl:col-span-7 space-y-4">
+                        <div class="card">
+                            <div class="card-hd">
+                                <span class="card-title" data-i18n="task.title">Active tasks</span>
+                                <div class="flex items-center gap-3">
+                                    <button class="link-btn" id="refreshOverviewTasksBtn" data-i18n="task.refresh">Refresh</button>
+                                    <button class="link-btn" id="viewTasksBtn">Open full view</button>
+                                </div>
+                            </div>
+                            <div class="table-wrap">
+                                <table class="data-table" id="overviewTasksTable">
+                                    <thead>
+                                    <tr>
+                                        <th data-i18n="col.method">Method</th>
+                                        <th data-i18n="col.target">Target</th>
+                                        <th data-i18n="col.threads">Threads</th>
+                                        <th data-i18n="col.elapsed">Elapsed</th>
+                                        <th data-i18n="col.status">Status</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="overviewTasksTbody">
+                                    <tr class="empty-row">
+                                        <td colspan="6" data-i18n="task.empty">No active tasks.</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="mini-term" id="dashLog"></div>
+                        <div class="card">
+                            <div class="card-hd">
+                                <span class="card-title" data-i18n="card.recent">Recent activity</span>
+                                <button class="link-btn" id="viewTermBtn" data-i18n="card.view_terminal">View terminal -></button>
+                            </div>
+                            <div class="mini-term" id="dashLog"></div>
+                        </div>
                     </div>
-                </div>
-            </section>
-
-            <section class="view" id="view-launch">
-                <div class="card">
-                    <div class="card-hd"><span class="card-title" data-i18n="form.title">Configure operation</span>
-                    </div>
-                    <form id="launchForm" class="form-grid">
-                        <div class="field">
-                            <label class="label" data-i18n="form.layer">Layer</label>
-                            <select id="layerSel" class="input">
-                                <option value="L7" data-i18n-opt="form.layer.l7">Layer 7 — Application (HTTP/HTTPS)
-                                </option>
-                                <option value="L4" data-i18n-opt="form.layer.l4">Layer 4 — Transport (TCP/UDP)</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label class="label" data-i18n="form.method">Method</label>
-                            <select id="methodSel" class="input"></select>
-                        </div>
-                        <div class="field span2">
-                            <label class="label" id="targetLabel" data-i18n="form.target.l7">Target (URL)</label>
-                            <input type="text" id="targetInp" class="input" data-i18n-ph="form.target.ph.l7"
-                                   placeholder="https://target.com" required>
-                        </div>
-                        <div class="field">
-                            <label class="label" data-i18n="form.threads">Threads</label>
-                            <input type="number" id="threadsInp" class="input" value="100" min="1" max="5000">
-                        </div>
-                        <div class="field">
-                            <label class="label" data-i18n="form.duration">Duration (s)</label>
-                            <input type="number" id="durationInp" class="input" value="60" min="1">
-                        </div>
-                        <div class="field" id="socksField">
-                            <label class="label" data-i18n="form.proxy_type">Proxy type</label>
-                            <select id="socksSel" class="input"></select>
-                        </div>
-                        <div class="field" id="proxyField">
-                            <label class="label" data-i18n="form.proxy_file">Proxy file path</label>
-                            <input type="text" id="proxyInp" class="input" data-i18n-ph="form.proxy_file.ph"
-                                   value="http.txt">
-                        </div>
-                        <div class="field" id="rpcField">
-                            <label class="label" data-i18n="form.rpc">RPC</label>
-                            <input type="number" id="rpcInp" class="input" value="10" min="1">
-                        </div>
-                        <div class="field" id="reflField" style="display:none">
-                            <label class="label" data-i18n="form.reflector">Reflector file (AMP)</label>
-                            <input type="text" id="reflInp" class="input" data-i18n-ph="form.reflector.ph"
-                                   placeholder="ntp.txt">
-                        </div>
-                        <div class="form-actions span2">
-                            <button type="submit" class="btn-primary" id="launchBtn">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                                    <polygon points="2,1 13,7 2,13" fill="currentColor"/>
-                                </svg>
-                                <span data-i18n="form.start">Start</span>
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </section>
 
@@ -284,10 +319,10 @@
                         <div class="field">
                             <label class="label" data-i18n="tools.tool">Tool</label>
                             <select id="toolSel" class="input">
-                                <option value="ping" data-i18n-opt="tool.ping">PING — TCP connectivity</option>
-                                <option value="check" data-i18n-opt="tool.check">CHECK — HTTP response</option>
-                                <option value="info" data-i18n-opt="tool.info">INFO — Geolocation and ASN</option>
-                                <option value="dns" data-i18n-opt="tool.dns">DNS — A/AAAA/MX/NS/TXT records</option>
+                                <option value="ping" data-i18n-opt="tool.ping">PING - TCP connectivity</option>
+                                <option value="check" data-i18n-opt="tool.check">CHECK - HTTP response</option>
+                                <option value="info" data-i18n-opt="tool.info">INFO - Geolocation and ASN</option>
+                                <option value="dns" data-i18n-opt="tool.dns">DNS - A/AAAA/MX/NS/TXT records</option>
                             </select>
                         </div>
                         <div class="field grow">

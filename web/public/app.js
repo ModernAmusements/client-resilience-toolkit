@@ -82,7 +82,7 @@ const Toast = (() => {
         init();
         const el = document.createElement('div');
         el.className = `toast toast-${type}`;
-        el.innerHTML = `<span class="toast-ico">${ICONS[type] || ICONS.info}</span><span class="toast-msg">${escHtml(msg)}</span><button class="toast-close" aria-label="Close">×</button>`;
+        el.innerHTML = `<span class="toast-ico">${ICONS[type] || ICONS.info}</span><span class="toast-msg">${escHtml(msg)}</span><button class="toast-close" aria-label="Close">x</button>`;
         container.appendChild(el);
         requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('visible')));
         const dismiss = () => {
@@ -213,7 +213,7 @@ class CustomSelect {
 
     _sync() {
         const opt = this._sel.options[this._sel.selectedIndex];
-        this._label.textContent = opt ? opt.text : '—';
+        this._label.textContent = opt ? opt.text : '-';
         this._dropdown.innerHTML = '';
         Array.from(this._sel.options).forEach((o, i) => {
             const item = document.createElement('div');
@@ -290,10 +290,38 @@ let layerCS = null;
 let toolCS = null;
 let langCS = null;
 
+const PRESETS = {
+    easy: {threads: 5, duration: 10, rpc: 1},
+    medium: {threads: 10, duration: 15, rpc: 1},
+    hard: {threads: 25, duration: 30, rpc: 5},
+    stress: {threads: 50, duration: 60, rpc: 10},
+};
+
+const PRESET_HINTS = {
+    easy: '5 threads for 10 seconds. Light local test.',
+    medium: '10 threads for 15 seconds. Recommended for local testing.',
+    hard: '25 threads for 30 seconds. Watch CPU and memory.',
+    stress: '50 threads for 60 seconds. May slow your machine; local testing only.',
+    custom: 'Custom values. Keep local tests small.',
+};
+
+let applyingPreset = false;
+
+function applyPreset(name) {
+    const preset = PRESETS[name];
+    if (!preset) return;
+    applyingPreset = true;
+    $('threadsInp').value = preset.threads;
+    $('durationInp').value = preset.duration;
+    $('rpcInp').value = preset.rpc;
+    applyingPreset = false;
+    const hint = $('presetHint');
+    if (hint) hint.textContent = PRESET_HINTS[name] || PRESET_HINTS.custom;
+}
+
 function getViewTitles() {
     return {
         dashboard: [t('nav.dashboard'), t('sub.dashboard')],
-        launch: [t('nav.launch'), t('sub.launch')],
         tasks: [t('nav.tasks'), t('sub.tasks')],
         tools: [t('nav.tools'), t('sub.tools')],
         terminal: [t('nav.terminal'), t('sub.terminal')],
@@ -311,10 +339,10 @@ function switchView(name) {
     if (btn) btn.classList.add('active');
     currentView = name;
     const vt = getViewTitles();
-    const [title, sub] = vt[name] || ['—', ''];
+    const [title, sub] = vt[name] || ['-', ''];
     $('viewTitle').textContent = title;
     $('viewSub').textContent = sub;
-    if (name === 'tasks') loadTasks();
+    if (name === 'tasks' || name === 'dashboard') loadTasks();
 }
 
 document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -322,6 +350,8 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 });
 
 $('viewTermBtn').addEventListener('click', () => switchView('terminal'));
+$('refreshOverviewTasksBtn').addEventListener('click', loadTasks);
+$('viewTasksBtn').addEventListener('click', () => switchView('tasks'));
 
 async function pollStats() {
     try {
@@ -371,6 +401,10 @@ async function loadMethods() {
         methods = await apiFetch('/api/methods').then(r => r.json());
         populateMethodSel();
         populateSocksSel();
+        if ($('methodSel').querySelector('option[value="GET"]')) {
+            $('methodSel').value = 'GET';
+        }
+        $('socksSel').value = '0';
         if (!methodCS) methodCS = new CustomSelect($('methodSel'));
         else methodCS.refresh();
         if (!socksCS) socksCS = new CustomSelect($('socksSel'));
@@ -417,6 +451,16 @@ function toggleL7Fields(layer) {
     $('targetInp').placeholder = t(isL7 ? 'form.target.ph.l7' : 'form.target.ph.l4');
 }
 
+$('presetSel').addEventListener('change', e => applyPreset(e.target.value));
+['threadsInp', 'durationInp', 'rpcInp'].forEach(id => {
+    $(id).addEventListener('input', () => {
+        if (applyingPreset) return;
+        $('presetSel').value = 'custom';
+        $('presetHint').textContent = PRESET_HINTS.custom;
+    });
+});
+applyPreset($('presetSel').value);
+
 $('layerSel').addEventListener('change', populateMethodSel);
 $('methodSel').addEventListener('change', () => toggleL7Fields($('layerSel').value));
 
@@ -444,7 +488,7 @@ $('launchForm').addEventListener('submit', async e => {
         const d = await r.json();
         if (d.success) {
             Toast.show(t('toast.task_started', d.task_id, d.pid), 'success');
-            switchView('tasks');
+            await loadTasks();
         } else {
             await Dialog.alert(escHtml(d.error), t('dlg.error.title'));
         }
@@ -456,16 +500,27 @@ $('launchForm').addEventListener('submit', async e => {
     }
 });
 
+function taskBadge(task) {
+    const badges = {RUNNING: 'badge-run', STOPPED: 'badge-stop', FINISHED: 'badge-done'};
+    return `<span class="badge ${badges[task.status] || 'badge-done'}">${task.status}</span>`;
+}
+
+function taskStopButton(task) {
+    return task.status === 'RUNNING'
+        ? `<button class="btn-stop" data-id="${task.id}">${t('task.stop')}</button>`
+        : '';
+}
+
 async function loadTasks() {
     try {
         const tasks = await apiFetch('/api/attacks/active').then(r => r.json());
+
         const tbody = $('tasksTbody');
-        if (!tasks.length) {
-            tbody.innerHTML = `<tr class="empty-row"><td colspan="10">${t('task.empty')}</td></tr>`;
-            return;
-        }
-        const badges = {RUNNING: 'badge-run', STOPPED: 'badge-stop', FINISHED: 'badge-done'};
-        tbody.innerHTML = tasks.map(task => `<tr>
+        if (tbody) {
+            if (!tasks.length) {
+                tbody.innerHTML = `<tr class="empty-row"><td colspan="10">${t('task.empty')}</td></tr>`;
+            } else {
+                tbody.innerHTML = tasks.map(task => `<tr>
       <td class="mono">${escHtml(task.id)}</td>
       <td class="mono">${task.pid}</td>
       <td>${task.layer}</td>
@@ -474,17 +529,32 @@ async function loadTasks() {
       <td class="mono">${task.threads}</td>
       <td class="mono">${task.start_time}</td>
       <td class="mono">${task.elapsed}s / ${task.duration}s</td>
-      <td><span class="badge ${badges[task.status] || 'badge-done'}">${task.status}</span></td>
-      <td>${task.status === 'RUNNING' ? `<button class="btn-stop" data-id="${task.id}">${t('task.stop')}</button>` : ''}</td>
+      <td>${taskBadge(task)}</td>
+      <td>${taskStopButton(task)}</td>
     </tr>`).join('');
+            }
+        }
+
+        const overview = $('overviewTasksTbody');
+        if (overview) {
+            if (!tasks.length) {
+                overview.innerHTML = `<tr class="empty-row"><td colspan="6">${t('task.empty')}</td></tr>`;
+            } else {
+                overview.innerHTML = tasks.map(task => `<tr>
+      <td class="mono">${escHtml(task.method)}</td>
+      <td>${escHtml(task.target)}</td>
+      <td class="mono">${task.threads}</td>
+      <td class="mono">${task.elapsed}s / ${task.duration}s</td>
+      <td>${taskBadge(task)}</td>
+      <td>${taskStopButton(task)}</td>
+    </tr>`).join('');
+            }
+        }
     } catch {
     }
 }
 
-$('tasksTbody').addEventListener('click', async e => {
-    const btn = e.target.closest('[data-id]');
-    if (!btn) return;
-    const id = btn.dataset.id;
+async function stopTask(id) {
     const ok = await Dialog.confirm(t('dlg.stop_task.msg', id), t('dlg.stop_task.title'), true);
     if (!ok) return;
     try {
@@ -501,6 +571,18 @@ $('tasksTbody').addEventListener('click', async e => {
     } catch (err) {
         Toast.show(t('toast.stop_error', err.message), 'error');
     }
+}
+
+$('tasksTbody').addEventListener('click', async e => {
+    const btn = e.target.closest('[data-id]');
+    if (!btn) return;
+    await stopTask(btn.dataset.id);
+});
+
+$('overviewTasksTbody').addEventListener('click', async e => {
+    const btn = e.target.closest('[data-id]');
+    if (!btn) return;
+    await stopTask(btn.dataset.id);
 });
 
 $('killAllBtn').addEventListener('click', async () => {
@@ -578,7 +660,7 @@ $('runToolBtn').addEventListener('click', async () => {
     }
     const out = $('toolOutput');
     out.classList.add('active');
-    out.textContent = '…';
+    out.textContent = '...';
     try {
         const d = await apiFetch('/api/tools/' + tool, {
             method: 'POST',
@@ -619,7 +701,6 @@ function updateDynamicStrings() {
     $('themeLbl').textContent = t(isDark ? 'theme.to_light' : 'theme.to_dark');
     $('scrollBtn').textContent = t(autoScroll ? 'term.autoscroll.on' : 'term.autoscroll.off');
     toggleL7Fields($('layerSel').value);
-    if ($('view-tasks').classList.contains('active')) loadTasks();
 }
 
 (async () => {
@@ -639,11 +720,14 @@ function updateDynamicStrings() {
 
     setInterval(pollStats, 2000);
     setInterval(() => {
-        if ($('view-tasks').classList.contains('active')) loadTasks();
+        if ($('view-tasks').classList.contains('active') || $('view-dashboard').classList.contains('active')) {
+            loadTasks();
+        }
     }, 3000);
 
     await pollStats();
     await pollResources();
     await loadMethods();
+    await loadTasks();
     connectSSE();
 })();

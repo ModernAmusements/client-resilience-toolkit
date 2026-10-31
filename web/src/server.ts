@@ -404,7 +404,7 @@ app.post('/api/tools/check', async (req: Request, res: Response) => {
         const {default: fetch} = await import('node-fetch');
         const r = await (fetch as any)(url, {
             method: 'GET',
-            headers: {'User-Agent': 'MHDDoS-Panel/2.4.4'},
+            headers: {'User-Agent': 'ClientResilienceToolkit/2.4.4'},
             redirect: 'manual',
             timeout: 10000,
         }) as any;
@@ -511,5 +511,5 @@ app.get('/{*splat}', (_req: Request, res: Response) => {
 });
 
 app.listen(PORT, HOST, () => {
-    console.log(`[MHDDoS Panel] Running -> http://${HOST}:${PORT}`);
+    console.log(`[Resilience Toolkit] Running -> http://${HOST}:${PORT}`);
 });

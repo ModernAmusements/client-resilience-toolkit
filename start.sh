@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Start the MHDDoS web panel.
+# Start the Client Resilience Toolkit panel.
 #
 # Checks/installs the Python and Node.js dependencies, builds the panel, starts it
 # in the background with a PID file and log, and waits until it responds.
@@ -43,7 +43,7 @@ usage() {
     cat <<EOF
 Usage: ./start.sh [options]
 
-Start the MHDDoS web panel. Dependencies are installed automatically when missing.
+Start the Client Resilience Toolkit panel. Dependencies are installed automatically when missing.
 
 Options:
   -p, --port PORT     Port to listen on (default: 5000, env: WEB_PORT)
@@ -194,7 +194,7 @@ if [[ $STATUS_ONLY -eq 1 ]]; then
     fi
 
     if [[ -n "$pid" ]] && pid_is_our_panel "$pid"; then
-        ok "MHDDoS web panel is running"
+        ok "Client Resilience Toolkit panel is running"
         printf '    URL:  %s\n' "${RUNNING_URL:-http://$HOST:${RUNNING_PORT:-$PORT}}"
         printf '    PID:  %s\n' "$pid"
         printf '    Log:  %s\n' "$LOG_FILE"
@@ -202,7 +202,7 @@ if [[ $STATUS_ONLY -eq 1 ]]; then
     fi
 
     rm -f "$PID_FILE" "$PORT_FILE" "$URL_FILE"
-    warn "MHDDoS web panel is not running."
+    warn "Client Resilience Toolkit panel is not running."
     exit 1
 fi
 
@@ -217,7 +217,7 @@ fi
 
 read_state
 if [[ -n "$RUNNING_PID" ]] && pid_is_our_panel "$RUNNING_PID"; then
-    ok "MHDDoS web panel is already running"
+    ok "Client Resilience Toolkit panel is already running"
     printf '    URL:  %s\n' "${RUNNING_URL:-http://$HOST:${RUNNING_PORT:-$PORT}}"
     printf '    PID:  %s\n' "$RUNNING_PID"
     printf '    Stop: ./stop.sh\n'
@@ -302,7 +302,7 @@ if port_busy "$SYS_PYTHON" "$PORT"; then
         printf '%s\n' "$pid" >"$PID_FILE"
         printf '%s\n' "$PORT" >"$PORT_FILE"
         printf '%s\n' "http://$HOST:$PORT" >"$URL_FILE"
-        ok "MHDDoS web panel is already running on port $PORT"
+        ok "Client Resilience Toolkit panel is already running on port $PORT"
         printf '    URL:  %s\n' "http://$HOST:$PORT"
         printf '    PID:  %s\n' "$pid"
         printf '    Stop: ./stop.sh\n'
@@ -345,7 +345,7 @@ fi
 export PATH="$ROOT_DIR/.venv/bin:$PATH"
 
 if [[ $FOREGROUND -eq 1 ]]; then
-    info "Starting MHDDoS web panel in the foreground at $URL"
+    info "Starting Client Resilience Toolkit panel in the foreground at $URL"
     info "Press Ctrl+C to stop."
 
     "$VENV_PY" -c '
@@ -371,7 +371,7 @@ os.execvp(sys.argv[2], sys.argv[2:])
     exit "$status"
 fi
 
-info "Starting MHDDoS web panel..."
+info "Starting Client Resilience Toolkit panel..."
 "$VENV_PY" -c '
 import os
 import sys
@@ -399,7 +399,7 @@ for _ in {1..40}; do
 done
 
 if [[ $READY -ne 1 ]]; then
-    warn "MHDDoS web panel failed to start."
+    warn "Client Resilience Toolkit panel failed to start."
     if [[ -s "$LOG_FILE" ]]; then
         printf '\n--- last 20 log lines ---\n' >&2
         tail -n 20 "$LOG_FILE" >&2 || true
@@ -409,7 +409,7 @@ if [[ $READY -ne 1 ]]; then
     exit 1
 fi
 
-ok "MHDDoS web panel is running"
+ok "Client Resilience Toolkit panel is running"
 printf '    URL:  %s\n' "$URL"
 printf '    PID:  %s\n' "$PANEL_PID"
 printf '    Log:  %s\n' "$LOG_FILE"

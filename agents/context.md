@@ -16,7 +16,7 @@ files never ship in images or release archives.
 - Panel URL: http://127.0.0.1:5001
 - Port 5000 is occupied by the macOS AirPlay Receiver, so `start.sh` falls back to 5001.
 - Local test target: Next.js 16.4.2 dev server at http://127.0.0.1:3000/en.
-- Docker image: `ghcr.io/matrixtm/mhddos:latest`, CLI only.
+- Docker image: `ghcr.io/modernamusements/client-resilience-toolkit:latest`, CLI only.
 
 ## Environment
 

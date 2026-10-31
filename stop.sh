@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Stop the MHDDoS web panel started by start.sh.
+# Stop the Client Resilience Toolkit panel started by start.sh.
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -36,7 +36,7 @@ usage() {
     cat <<EOF
 Usage: ./stop.sh [options]
 
-Stop the MHDDoS web panel started by start.sh.
+Stop the Client Resilience Toolkit panel started by start.sh.
 
 Options:
   -p, --port PORT   Port to look on when the PID file is missing (default: 5000)
@@ -145,11 +145,11 @@ fi
 
 if [[ -z "$PID" ]]; then
     if [[ $QUIET -eq 0 ]]; then
-        info "MHDDoS web panel is not running."
+        info "Client Resilience Toolkit panel is not running."
     fi
 else
     if [[ $QUIET -eq 0 ]]; then
-        info "Stopping MHDDoS web panel (PID $PID)..."
+        info "Stopping Client Resilience Toolkit panel (PID $PID)..."
     fi
 
     PGID="$(ps -o pgid= -p "$PID" 2>/dev/null | tr -d '[:space:]')" || PGID=''
@@ -183,7 +183,7 @@ else
     fi
 
     if [[ $QUIET -eq 0 ]]; then
-        ok "MHDDoS web panel stopped."
+        ok "Client Resilience Toolkit panel stopped."
     fi
 fi
 

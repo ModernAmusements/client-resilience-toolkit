@@ -2,11 +2,11 @@
 
 FROM python:3.12-slim-bookworm
 
-LABEL org.opencontainers.image.title="MHDDoS" \
-      org.opencontainers.image.description="Layer 4/7 stress-testing toolkit" \
-      org.opencontainers.image.source="https://github.com/MatrixTM/MHDDoS" \
+LABEL org.opencontainers.image.title="Client Resilience Toolkit" \
+      org.opencontainers.image.description="Authorized, client-owned resilience testing toolkit" \
+      org.opencontainers.image.source="https://github.com/ModernAmusements/client-resilience-toolkit" \
       org.opencontainers.image.licenses="MIT" \
-      maintainer="0xkatana"
+      maintainer="ModernAmusements"
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \

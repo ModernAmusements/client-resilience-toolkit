@@ -2,8 +2,8 @@ services:
   mhddos:
     build:
       context: .
-    image: ghcr.io/matrixtm/mhddos:latest
-    container_name: mhddos
+    image: ghcr.io/modernamusements/client-resilience-toolkit:latest
+    container_name: client-resilience-toolkit
     restart: "no"
     init: true
     stdin_open: true
